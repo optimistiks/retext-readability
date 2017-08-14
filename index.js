@@ -39,9 +39,67 @@ function readability(options) {
   return transformer;
 
   function transformer(tree, file) {
+    var totalSentenceCount = 0;
+    var totalWordCount = 0;
+    var totalPolysillabicWord = 0;
+    var totalComplexPolysillabicWord = 0;
+    var totalFamiliarWordCount = 0;
+    var totalEasyWordCount = 0;
+    var totalSyllablesInText = 0;
+    var totalLetters = 0;
+
     visit(tree, 'SentenceNode', gather);
 
+    var totalCounts = {
+      complexPolysillabicWord: totalComplexPolysillabicWord,
+      polysillabicWord: totalPolysillabicWord,
+      unfamiliarWord: totalWordCount - totalFamiliarWordCount,
+      difficultWord: totalWordCount - totalEasyWordCount,
+      syllable: totalSyllablesInText,
+      sentence: totalSentenceCount,
+      word: totalWordCount,
+      character: totalLetters,
+      letter: totalLetters
+    };
+
+    var totalDaleChallScore = daleChallFormula(totalCounts);
+    var totalGrades = {
+      daleChallGrade: daleChallFormula.gradeLevel(totalDaleChallScore)[1],
+      ariGrade: ari(totalCounts),
+      colemanLiauGrade: colemanLiau(totalCounts),
+      fleschGrade: flesch(totalCounts),
+      smogGrade: smog(totalCounts),
+      gunningFogGrade: gunningFog(totalCounts),
+      spacheGrade: spacheFormula(totalCounts)
+    };
+    Object.keys(totalGrades).forEach(function (key) {
+      totalGrades[key] = parseFloat(totalGrades[key].toFixed(2));
+    });
+
+    var totalAges = {
+      daleChallAge: gradeToAge(totalGrades.daleChallGrade),
+      ariAge: gradeToAge(totalGrades.ariGrade),
+      colemanLiauAge: gradeToAge(totalGrades.colemanLiauGrade),
+      fleschAge: fleschToAge(totalGrades.fleschGrade),
+      smogAge: smogToAge(totalGrades.smogGrade),
+      gunningFogAge: gradeToAge(totalGrades.gunningFogGrade),
+      spacheAge: gradeToAge(totalGrades.spacheGrade)
+    };
+    Object.keys(totalAges).forEach(function (key) {
+      totalAges[key] = Math.round(totalAges[key]);
+    });
+
+    file.data.results = {
+      ages: totalAges,
+      grades: totalGrades,
+      sentenceCount: totalSentenceCount,
+      wordCount: totalWordCount,
+      characterCount: totalLetters
+    };
+
     function gather(sentence) {
+      ++totalSentenceCount;
+
       var familiarWords = {};
       var easyWord = {};
       var complexPolysillabicWord = 0;
@@ -55,6 +113,14 @@ function readability(options) {
       var caseless;
 
       visit(sentence, 'WordNode', visitor);
+
+      totalWordCount += wordCount;
+      totalPolysillabicWord += polysillabicWord;
+      totalComplexPolysillabicWord += complexPolysillabicWord;
+      totalFamiliarWordCount += familiarWordCount;
+      totalEasyWordCount += easyWordCount;
+      totalSyllablesInText += totalSyllables;
+      totalLetters += letters;
 
       if (wordCount < minWords) {
         return;
