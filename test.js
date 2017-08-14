@@ -11,7 +11,7 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#1)');
 
       t.deepEqual(
-        file.data.results,
+        file.data.result,
         {
           ages: {
             daleChallAge: 13,
@@ -48,7 +48,7 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#2)');
 
       t.deepEqual(
-        file.data.results,
+        file.data.result,
         {ages: {daleChallAge: Infinity, ariAge: 17, colemanLiauAge: 15, fleschAge: 18, smogAge: 7, gunningFogAge: 18, spacheAge: 13}, grades: {daleChallGrade: Infinity, ariGrade: 11.78, colemanLiauGrade: 10.01, fleschGrade: 29, smogGrade: 17.12, gunningFogGrade: 12.68, spacheGrade: 8.43}, sentenceCount: 1, wordCount: 23, characterCount: 106},
         'should give correct results for the whole text'
       );
@@ -71,7 +71,7 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#3)');
 
       t.deepEqual(
-        file.data.results,
+        file.data.result,
         {ages: {daleChallAge: Infinity, ariAge: 17, colemanLiauAge: 15, fleschAge: 18, smogAge: 7, gunningFogAge: 18, spacheAge: 13}, grades: {daleChallGrade: Infinity, ariGrade: 11.78, colemanLiauGrade: 10.01, fleschGrade: 29, smogGrade: 17.12, gunningFogGrade: 12.68, spacheGrade: 8.43}, sentenceCount: 1, wordCount: 23, characterCount: 106},
         'should give correct results for the whole text'
       );
@@ -94,7 +94,7 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#4)');
 
       t.deepEqual(
-        file.data.results,
+        file.data.result,
         {ages: {daleChallAge: Infinity, ariAge: 17, colemanLiauAge: 15, fleschAge: 18, smogAge: 7, gunningFogAge: 18, spacheAge: 13}, grades: {daleChallGrade: Infinity, ariGrade: 11.78, colemanLiauGrade: 10.01, fleschGrade: 29, smogGrade: 17.12, gunningFogGrade: 12.68, spacheGrade: 8.43}, sentenceCount: 1, wordCount: 23, characterCount: 106},
         'should give correct results for the whole text'
       );
@@ -117,7 +117,7 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#5)');
 
       t.deepEqual(
-        file.data.results,
+        file.data.result,
         {ages: {daleChallAge: Infinity, ariAge: 17, colemanLiauAge: 15, fleschAge: 18, smogAge: 7, gunningFogAge: 18, spacheAge: 13}, grades: {daleChallGrade: Infinity, ariGrade: 11.78, colemanLiauGrade: 10.01, fleschGrade: 29, smogGrade: 17.12, gunningFogGrade: 12.68, spacheGrade: 8.43}, sentenceCount: 1, wordCount: 23, characterCount: 106},
         'should give correct results for the whole text'
       );
@@ -140,7 +140,7 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#6)');
 
       t.deepEqual(
-        file.data.results,
+        file.data.result,
         {ages: {daleChallAge: Infinity, ariAge: 20, colemanLiauAge: 17, fleschAge: 18, smogAge: 7, gunningFogAge: 20, spacheAge: 15}, grades: {daleChallGrade: Infinity, ariGrade: 14.62, colemanLiauGrade: 12.42, fleschGrade: 22.41, smogGrade: 18.24, gunningFogGrade: 14.8, spacheGrade: 9.59}, sentenceCount: 1, wordCount: 25, characterCount: 125},
         'should give correct results for the whole text'
       );
@@ -164,7 +164,7 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#7)');
 
       t.deepEqual(
-        file.data.results,
+        file.data.result,
         {ages: {daleChallAge: Infinity, ariAge: 24, colemanLiauAge: 16, fleschAge: 18, smogAge: 7, gunningFogAge: 22, spacheAge: 16}, grades: {daleChallGrade: Infinity, ariGrade: 18.54, colemanLiauGrade: 11.41, fleschGrade: 26.28, smogGrade: 18.24, gunningFogGrade: 17.43, spacheGrade: 11.22}, sentenceCount: 1, wordCount: 35, characterCount: 167},
         'should give correct results for the whole text'
       );
@@ -182,7 +182,7 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#8)');
 
       t.deepEqual(
-        file.data.results,
+        file.data.result,
         {ages: {daleChallAge: Infinity, ariAge: 111, colemanLiauAge: 118, fleschAge: 110, smogAge: 6, gunningFogAge: 5, spacheAge: 14}, grades: {daleChallGrade: Infinity, ariGrade: 106.24, colemanLiauGrade: 113.36, fleschGrade: -893.98, smogGrade: 8.84, gunningFogGrade: 0.4, spacheGrade: 8.98}, sentenceCount: 1, wordCount: 1, characterCount: 27},
         'should give correct results for the whole text'
       );
@@ -200,7 +200,7 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#8)');
 
       t.deepEqual(
-        file.data.results,
+        file.data.result,
         {ages: {daleChallAge: Infinity, ariAge: 111, colemanLiauAge: 118, fleschAge: 110, smogAge: 6, gunningFogAge: 5, spacheAge: 14}, grades: {daleChallGrade: Infinity, ariGrade: 106.24, colemanLiauGrade: 113.36, fleschGrade: -893.98, smogGrade: 8.84, gunningFogGrade: 0.4, spacheGrade: 8.98}, sentenceCount: 1, wordCount: 1, characterCount: 27},
         'should give correct results for the whole text'
       );

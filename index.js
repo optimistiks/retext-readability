@@ -89,7 +89,7 @@ function readability(options) {
       totalAges[key] = Math.round(totalAges[key]);
     });
 
-    file.data.results = {
+    file.data.result = {
       ages: totalAges,
       grades: totalGrades,
       sentenceCount: totalSentenceCount,
