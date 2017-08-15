@@ -63,27 +63,28 @@ function readability(options) {
     };
 
     var totalDaleChallScore = daleChallFormula(totalCounts);
-    var totalGrades = {
+    var totalScores = {
+      daleChallScore: totalDaleChallScore,
       daleChallGrade: daleChallFormula.gradeLevel(totalDaleChallScore)[1],
+      fleschScore: flesch(totalCounts),
+      smogResult: smog(totalCounts),
       ariGrade: ari(totalCounts),
       colemanLiauGrade: colemanLiau(totalCounts),
-      fleschGrade: flesch(totalCounts),
-      smogGrade: smog(totalCounts),
       gunningFogGrade: gunningFog(totalCounts),
       spacheGrade: spacheFormula(totalCounts)
     };
-    Object.keys(totalGrades).forEach(function (key) {
-      totalGrades[key] = parseFloat(totalGrades[key].toFixed(2));
+    Object.keys(totalScores).forEach(function (key) {
+      totalScores[key] = parseFloat(totalScores[key].toFixed(2));
     });
 
     var totalAges = {
-      daleChallAge: gradeToAge(totalGrades.daleChallGrade),
-      ariAge: gradeToAge(totalGrades.ariGrade),
-      colemanLiauAge: gradeToAge(totalGrades.colemanLiauGrade),
-      fleschAge: fleschToAge(totalGrades.fleschGrade),
-      smogAge: smogToAge(totalGrades.smogGrade),
-      gunningFogAge: gradeToAge(totalGrades.gunningFogGrade),
-      spacheAge: gradeToAge(totalGrades.spacheGrade)
+      daleChallAge: gradeToAge(totalScores.daleChallGrade),
+      ariAge: gradeToAge(totalScores.ariGrade),
+      colemanLiauAge: gradeToAge(totalScores.colemanLiauGrade),
+      fleschAge: fleschToAge(totalScores.fleschScore),
+      smogAge: smogToAge(totalScores.smogResult),
+      gunningFogAge: gradeToAge(totalScores.gunningFogGrade),
+      spacheAge: gradeToAge(totalScores.spacheGrade)
     };
     Object.keys(totalAges).forEach(function (key) {
       totalAges[key] = Math.round(totalAges[key]);
@@ -91,7 +92,7 @@ function readability(options) {
 
     file.data.result = {
       ages: totalAges,
-      grades: totalGrades,
+      scores: totalScores,
       sentenceCount: totalSentenceCount,
       wordCount: totalWordCount,
       characterCount: totalLetters
