@@ -41,62 +41,9 @@ function readability(options) {
   function transformer(tree, file) {
     var totalSentenceCount = 0;
     var totalWordCount = 0;
-    var totalPolysillabicWord = 0;
-    var totalComplexPolysillabicWord = 0;
-    var totalFamiliarWordCount = 0;
-    var totalEasyWordCount = 0;
-    var totalSyllablesInText = 0;
-    var totalLetters = 0;
+    var totalCharacterCount = 0;
 
     visit(tree, 'SentenceNode', gather);
-
-    var totalCounts = {
-      complexPolysillabicWord: totalComplexPolysillabicWord,
-      polysillabicWord: totalPolysillabicWord,
-      unfamiliarWord: totalWordCount - totalFamiliarWordCount,
-      difficultWord: totalWordCount - totalEasyWordCount,
-      syllable: totalSyllablesInText,
-      sentence: totalSentenceCount,
-      word: totalWordCount,
-      character: totalLetters,
-      letter: totalLetters
-    };
-
-    var totalDaleChallScore = daleChallFormula(totalCounts);
-    var totalScores = {
-      daleChallScore: totalDaleChallScore,
-      daleChallGrade: daleChallFormula.gradeLevel(totalDaleChallScore)[1],
-      fleschScore: flesch(totalCounts),
-      smogResult: smog(totalCounts),
-      ariGrade: ari(totalCounts),
-      colemanLiauGrade: colemanLiau(totalCounts),
-      gunningFogGrade: gunningFog(totalCounts),
-      spacheGrade: spacheFormula(totalCounts)
-    };
-    Object.keys(totalScores).forEach(function (key) {
-      totalScores[key] = parseFloat(totalScores[key].toFixed(2));
-    });
-
-    var totalAges = {
-      daleChallAge: gradeToAge(totalScores.daleChallGrade),
-      ariAge: gradeToAge(totalScores.ariGrade),
-      colemanLiauAge: gradeToAge(totalScores.colemanLiauGrade),
-      fleschAge: fleschToAge(totalScores.fleschScore),
-      smogAge: smogToAge(totalScores.smogResult),
-      gunningFogAge: gradeToAge(totalScores.gunningFogGrade),
-      spacheAge: gradeToAge(totalScores.spacheGrade)
-    };
-    Object.keys(totalAges).forEach(function (key) {
-      totalAges[key] = Math.round(totalAges[key]);
-    });
-
-    file.data.result = {
-      ages: totalAges,
-      scores: totalScores,
-      sentenceCount: totalSentenceCount,
-      wordCount: totalWordCount,
-      characterCount: totalLetters
-    };
 
     function gather(sentence) {
       ++totalSentenceCount;
@@ -116,12 +63,7 @@ function readability(options) {
       visit(sentence, 'WordNode', visitor);
 
       totalWordCount += wordCount;
-      totalPolysillabicWord += polysillabicWord;
-      totalComplexPolysillabicWord += complexPolysillabicWord;
-      totalFamiliarWordCount += familiarWordCount;
-      totalEasyWordCount += easyWordCount;
-      totalSyllablesInText += totalSyllables;
-      totalLetters += letters;
+      totalCharacterCount += letters;
 
       if (wordCount < minWords) {
         return;
@@ -185,6 +127,12 @@ function readability(options) {
           easyWordCount++;
         }
       }
+    }
+
+    file.data.stats = {
+      sentenceCount: totalSentenceCount,
+      wordCount: totalWordCount,
+      characterCount: totalCharacterCount
     }
   }
 }
