@@ -103,12 +103,19 @@ has, for example, a few long words or some unknown ones.
 
 ## Related
 
-*   [`retext-syntax-mentions`](https://github.com/wooorm/retext-syntax-mentions)
+*   [`retext-syntax-mentions`](https://github.com/retextjs/retext-syntax-mentions)
     — Classify [**@mentions**](https://github.com/blog/821) as syntax
-*   [`retext-syntax-urls`](https://github.com/wooorm/retext-syntax-urls)
+*   [`retext-syntax-urls`](https://github.com/retextjs/retext-syntax-urls)
     — Classify URLs anf filepaths as syntax
-*   [`retext-simplify`](https://github.com/wooorm/retext-simplify)
+*   [`retext-simplify`](https://github.com/retextjs/retext-simplify)
     — Check phrases for simpler alternatives
+
+## Contribute
+
+See [`contribute.md` in `retextjs/retext`][contribute] for ways to get started.
+
+This organisation has a [Code of Conduct][coc].  By interacting with this
+repository, organisation, or community you agree to abide by its terms.
 
 ## License
 
@@ -116,13 +123,13 @@ has, for example, a few long words or some unknown ones.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/wooorm/retext-readability.svg
+[travis-badge]: https://img.shields.io/travis/retextjs/retext-readability.svg
 
-[travis]: https://travis-ci.org/wooorm/retext-readability
+[travis]: https://travis-ci.org/retextjs/retext-readability
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/retext-readability.svg
+[codecov-badge]: https://img.shields.io/codecov/c/github/retextjs/retext-readability.svg
 
-[codecov]: https://codecov.io/github/wooorm/retext-readability
+[codecov]: https://codecov.io/github/retextjs/retext-readability
 
 [npm]: https://docs.npmjs.com/cli/install
 
@@ -130,18 +137,22 @@ has, for example, a few long words or some unknown ones.
 
 [author]: http://wooorm.com
 
-[retext]: https://github.com/wooorm/retext
+[retext]: https://github.com/retextjs/retext
 
-[dale-chall]: https://github.com/wooorm/dale-chall-formula
+[dale-chall]: https://github.com/words/dale-chall-formula
 
-[automated-readability]: https://github.com/wooorm/automated-readability
+[automated-readability]: https://github.com/words/automated-readability
 
-[coleman-liau]: https://github.com/wooorm/coleman-liau
+[coleman-liau]: https://github.com/words/coleman-liau
 
-[flesch]: https://github.com/wooorm/flesch
+[flesch]: https://github.com/words/flesch
 
-[gunning-fog]: https://github.com/wooorm/gunning-fog
+[gunning-fog]: https://github.com/words/gunning-fog
 
-[spache]: https://github.com/wooorm/spache-formula
+[spache]: https://github.com/words/spache-formula
 
-[smog]: https://github.com/wooorm/smog-formula
+[smog]: https://github.com/words/smog-formula
+
+[contribute]: https://github.com/retextjs/retext/blob/master/contributing.md
+
+[coc]: https://github.com/retextjs/retext/blob/master/code-of-conduct.md

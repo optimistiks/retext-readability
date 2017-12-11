@@ -1,6 +1,6 @@
 {
   "name": "retext-readability",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "description": "Check readability with retext",
   "license": "MIT",
   "keywords": [
@@ -25,8 +25,8 @@
     "retext",
     "plugin"
   ],
-  "repository": "wooorm/retext-readability",
-  "bugs": "https://github.com/wooorm/retext-readability/issues",
+  "repository": "retextjs/retext-readability",
+  "bugs": "https://github.com/retextjs/retext-readability/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
@@ -48,7 +48,7 @@
     "smog-formula": "^1.0.0",
     "spache": "^1.1.0",
     "spache-formula": "^1.0.0",
-    "syllable": "^2.0.0",
+    "syllable": "^3.0.0",
     "unist-util-visit": "^1.0.0"
   },
   "devDependencies": {
