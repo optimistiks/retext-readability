@@ -29,7 +29,7 @@ var sqrt = Math.sqrt;
 function readability(options) {
   var settings = options || {};
   var targetAge = settings.age || DEFAULT_TARGET_AGE;
-  var threshold = settings.threshold != null ? settings.threshold : DEFAULT_THRESHOLD;
+  var threshold = settings.threshold === null || settings.threshold === undefined ? DEFAULT_THRESHOLD : settings.threshold;
   var minWords = settings.minWords;
 
   if (minWords === null || minWords === undefined) {
@@ -42,6 +42,16 @@ function readability(options) {
     var totalSentenceCount = 0;
     var totalWordCount = 0;
     var totalCharacterCount = 0;
+
+    const totalGrades = {
+      daleChall: 0,
+      ari: 0,
+      coleman: 0,
+      flesch: 0,
+      smog: 0,
+      gunningFog: 0,
+      spache: 0
+    };
 
     visit(tree, 'SentenceNode', gather);
 
@@ -82,7 +92,7 @@ function readability(options) {
       };
 
       const grades = {
-        daleChall: daleChallFormula.gradeLevel(daleChallFormula(counts))[1],
+        daleChall: getDaleChallGrade(counts),
         ari: ari(counts),
         coleman: colemanLiau(counts),
         flesch: fleschToGrade(flesch(counts)),
@@ -90,6 +100,10 @@ function readability(options) {
         gunningFog: gunningFog(counts),
         spache: spacheFormula(counts)
       };
+
+      Object.keys(grades).forEach(function (key) {
+        totalGrades[key] += grades[key];
+      });
 
       report(file, sentence, threshold, targetAge, [
         gradeToAge(grades.daleChall),
@@ -137,12 +151,45 @@ function readability(options) {
       }
     }
 
+    var avgTotalGrades = Object.keys(totalGrades).reduce(function (obj, key) {
+      obj[key] = totalGrades[key] / totalSentenceCount;
+      return obj;
+    }, {});
+
+    var avgTotalGradesList = Object.keys(avgTotalGrades)
+      .sort(
+        function (keyA, keyB) {
+          return totalGrades[keyA] - totalGrades[keyB];
+        }
+      )
+      .map(
+        function (key) {
+          return avgTotalGrades[key];
+        }
+      )
+      .slice(1, Object.keys(totalGrades).length - 1);
+
+    var avgTotalGrade =
+      Math.round(avgTotalGradesList
+        .reduce(
+          function (sum, grade) {
+            return sum + grade;
+          }
+        ) / avgTotalGradesList.length);
+
     file.data.stats = {
       sentenceCount: totalSentenceCount,
       wordCount: totalWordCount,
-      characterCount: totalCharacterCount
-    }
+      characterCount: totalCharacterCount,
+      grade: avgTotalGrade
+    };
   }
+}
+
+function getDaleChallGrade(counts) {
+  var range = daleChallFormula.gradeLevel(daleChallFormula(counts));
+  var grade = isFinite(range[1]) ? range[1] : range[0];
+  return grade;
 }
 
 /* Calculate the typical starting age (on the higher-end) when
@@ -164,29 +211,29 @@ function smogToAge(value) {
 }
 
 /* Convert flesch reading ease to U.S. grade */
-function fleschToGrade (fleschScore) {
-  // conversion is made according to
+function fleschToGrade(fleschScore) {
+  // Conversion is made according to
   // https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests#Flesch_Reading_Ease
   // lower bound is taken
   if (fleschScore < 30) {
-    return 14
+    return 14;
   }
   if (fleschScore >= 30 && fleschScore < 50) {
-    return 13
+    return 13;
   }
   if (fleschScore >= 50 && fleschScore < 60) {
-    return 10
+    return 10;
   }
   if (fleschScore >= 60 && fleschScore < 70) {
-    return 8
+    return 8;
   }
   if (fleschScore >= 70 && fleschScore < 80) {
-    return 7
+    return 7;
   }
   if (fleschScore >= 80 && fleschScore < 90) {
-    return 6
+    return 6;
   }
-  return 5
+  return 5;
 }
 
 /* eslint-disable max-params */
@@ -215,6 +262,6 @@ function report(file, node, threshold, target, results, grades) {
     message.source = SOURCE;
     message.actual = toString(node);
     message.expected = null;
-    message.grades = grades
+    message.grades = grades;
   }
 }

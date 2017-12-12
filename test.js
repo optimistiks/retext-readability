@@ -155,8 +155,8 @@ test('readability', function (t) {
       t.ifError(err, 'should not fail (#9)');
 
       t.deepEqual(
-        file.data.result,
-        {ages: {daleChallAge: Infinity, ariAge: 17, colemanLiauAge: 15, fleschAge: 18, smogAge: 7, gunningFogAge: 18, spacheAge: 13}, scores: {daleChallScore: 13.02, daleChallGrade: Infinity, fleschScore: 29, smogResult: 17.12, ariGrade: 11.78, colemanLiauGrade: 10.01, gunningFogGrade: 12.68, spacheGrade: 8.43}, sentenceCount: 1, wordCount: 23, characterCount: 106},
+        file.data.stats,
+        {sentenceCount: 1, wordCount: 23, characterCount: 106, grade: 13},
         'should give correct results for the whole text'
       );
     });
