@@ -81,17 +81,25 @@ function readability(options) {
         letter: letters
       };
 
+      const grades = {
+        daleChall: daleChallFormula.gradeLevel(daleChallFormula(counts))[1],
+        ari: ari(counts),
+        coleman: colemanLiau(counts),
+        flesch: fleschToGrade(flesch(counts)),
+        smog: smog(counts),
+        gunningFog: gunningFog(counts),
+        spache: spacheFormula(counts)
+      };
+
       report(file, sentence, threshold, targetAge, [
-        gradeToAge(daleChallFormula.gradeLevel(
-          daleChallFormula(counts)
-        )[1]),
-        gradeToAge(ari(counts)),
-        gradeToAge(colemanLiau(counts)),
+        gradeToAge(grades.daleChall),
+        gradeToAge(grades.ari),
+        gradeToAge(grades.coleman),
         fleschToAge(flesch(counts)),
-        smogToAge(smog(counts)),
-        gradeToAge(gunningFog(counts)),
-        gradeToAge(spacheFormula(counts))
-      ]);
+        smogToAge(grades.smog),
+        gradeToAge(grades.gunningFog),
+        gradeToAge(grades.spache)
+      ], grades);
 
       function visitor(node) {
         var value = toString(node);
@@ -155,11 +163,37 @@ function smogToAge(value) {
   return ceil(sqrt(value) + 2.5);
 }
 
+/* Convert flesch reading ease to U.S. grade */
+function fleschToGrade (fleschScore) {
+  // conversion is made according to
+  // https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests#Flesch_Reading_Ease
+  // lower bound is taken
+  if (fleschScore < 30) {
+    return 14
+  }
+  if (fleschScore >= 30 && fleschScore < 50) {
+    return 13
+  }
+  if (fleschScore >= 50 && fleschScore < 60) {
+    return 10
+  }
+  if (fleschScore >= 60 && fleschScore < 70) {
+    return 8
+  }
+  if (fleschScore >= 70 && fleschScore < 80) {
+    return 7
+  }
+  if (fleschScore >= 80 && fleschScore < 90) {
+    return 6
+  }
+  return 5
+}
+
 /* eslint-disable max-params */
 
 /* Report the `results` if they’re reliably too hard for
  * the `target` age. */
-function report(file, node, threshold, target, results) {
+function report(file, node, threshold, target, results, grades) {
   var length = results.length;
   var index = -1;
   var failCount = 0;
@@ -177,8 +211,10 @@ function report(file, node, threshold, target, results) {
 
     message = file.warn('Hard to read sentence (confidence: ' + confidence + ')', node, SOURCE);
     message.confidence = confidence;
+    message.confidenceValue = failCount / length;
     message.source = SOURCE;
     message.actual = toString(node);
     message.expected = null;
+    message.grades = grades
   }
 }
