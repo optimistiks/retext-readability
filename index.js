@@ -29,7 +29,7 @@ var sqrt = Math.sqrt;
 function readability(options) {
   var settings = options || {};
   var targetAge = settings.age || DEFAULT_TARGET_AGE;
-  var threshold = settings.threshold || DEFAULT_THRESHOLD;
+  var threshold = settings.threshold != null ? settings.threshold : DEFAULT_THRESHOLD;
   var minWords = settings.minWords;
 
   if (minWords === null || minWords === undefined) {
